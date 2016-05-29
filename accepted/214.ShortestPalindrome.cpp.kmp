@@ -1,0 +1,105 @@
+#include"mytest.h"
+
+
+
+vector<int> buildprefix(string& pattern) {
+    int i, j;
+    i = 1, j = 0;
+    vector<int> prefix;
+    prefix.resize(pattern.size());
+    prefix[0] = 0;
+
+
+    while(i < pattern.length() && j < pattern.length()) {
+        if(pattern[i] == pattern[j]) {
+            prefix[i] = j+1;
+            i++;
+            j++;
+        }
+        else {
+            //p[i] and p[j] don't match
+            while(j > 0 && pattern[i] != pattern[j]) {
+                j = prefix[j-1];        //j doesn't need to increment 1, because array starts from 0
+            }
+            if(pattern[i] == pattern[j]) {
+                prefix[i] = j+1;
+                i++;
+                j++;
+            }
+            else {
+                assert(j==0);
+                prefix[i] = 0;
+                i++;
+            }
+        }
+    }
+    return prefix;
+}
+
+int search(vector<int>& prefix, string& text, string& pattern) {
+    int i, j;
+    i = j = 0;
+    int n = text.length(), m = pattern.length();
+    if(m > n) return -1;
+    //i: position in text
+    //j: position in pattern
+    while(i < n && j < m) {
+        if(text[i] == pattern[j]) {
+            i ++;
+            j ++;
+        }
+        else {
+            if(j != 0) {
+                j = prefix[j-1];
+            }
+            else {
+                i ++;
+            }
+        }
+    }
+    if(j >= m) {
+        //search is successful
+        return i-m;
+    }
+    else {
+        return -1;
+    }
+}
+
+int match(string& text, string& pattern) {
+
+    vector<int> prefix = buildprefix(pattern);
+    cout<<"Prefix:\n";
+    printVector(prefix);
+    int matchingpos = search(prefix, text, pattern);
+    if(matchingpos == -1) {
+        cout<<"No match\n";
+        return -1;
+    }
+    cout<<text<<endl;
+    for(int i = 0; i < matchingpos; i ++) {
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<search(prefix, text, pattern)<<endl;
+
+
+
+    return 0;
+}
+
+
+
+int main() {
+	srand(time(NULL));
+
+    string text, pattern;
+    cin>>text>>pattern;
+    cout<<text<<endl<<pattern<<endl;
+    match(text, pattern);
+//    cout<<match(text, pattern)<<endl;
+
+
+
+    return 0;
+}

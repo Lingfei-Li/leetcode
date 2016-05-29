@@ -1,0 +1,82 @@
+#include"mytest.h"
+
+
+using namespace std;
+
+int diff(string s1, string s2) {
+    int cnt = 0;
+    for(int i = 0; i < s1.length(); i ++){
+        if(s1[i] != s2[i] && cnt) return 0;
+        if(s1[i] != s2[i]) 
+            cnt ++;
+    }
+    return cnt;
+}
+
+int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
+                
+    if(beginWord.length() <= 1) return beginWord.length();
+    if(diff(beginWord, endWord) == 1) return 1;
+    if(wordList.size() == 0) return 0;
+
+    unordered_map<string, vector<string> > m;
+
+    //constructing adjacent list
+    for(unordered_set<string>::iterator it1 = wordList.begin(); it1!=wordList.end(); it1++) {
+
+        if(diff(beginWord, *it1) == 1) 
+            m[beginWord].push_back(*it1);
+        if(diff(endWord, *it1) == 1) 
+            m[*it1].push_back(endWord);
+
+        for(unordered_set<string>::iterator it2 = it1; it2!=wordList.end(); it2++) {
+
+            if(*it1 == *it2) continue;
+            if(diff(*it1, *it2) == 1) {
+                m[*it1].push_back(*it2);
+                m[*it2].push_back(*it1);
+            }
+        }
+    }
+
+    return 0;
+
+    //BFS
+    queue<pair<string, int> > q;
+    q.push(pair<string, int>(beginWord, 1));
+    unordered_set<string> vis;
+    while(!q.empty()) {
+        pair<string, int> p = q.front();
+        q.pop();
+        if(vis.count(p.first)) continue;
+        vis.insert(p.first);
+        if(p.first == endWord) return p.second;
+        for(int i = 0; i < m[p.first].size(); i ++) {
+            if(!vis.count(m[p.first][i]))
+                q.push(pair<string, int>(m[p.first][i], p.second+1));
+        }
+    }
+    return 0;
+
+}
+
+int main() {
+	srand(time(NULL));
+
+    
+
+    unordered_set<string> wordList;
+    string s;
+    string begin, end;
+    cin>>begin;
+    cin>>end;
+    while(cin>>s && s != "end") {
+        wordList.insert(s);
+    }
+
+    cout<<ladderLength(begin, end, wordList)<<endl;
+
+
+
+    return 0;
+}

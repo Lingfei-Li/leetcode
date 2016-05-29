@@ -1,0 +1,103 @@
+#include"mytest.h"
+
+
+using namespace std;
+
+int adj(string s1, string s2) {
+    int flag = 0;
+    for(int i = 0; i < s1.length(); i ++){
+        if(s1[i] != s2[i] && flag) return 0;
+        if(s1[i] != s2[i] && !flag) flag = 1;
+    }
+    return 1;
+}
+
+
+void construct(string& beginWord, string& endWord, unordered_set<string>& wordList, unordered_map<string, vector<string> >&  m) {
+
+    //constructing adjacent list
+    for(unordered_set<string>::iterator it1 = wordList.begin(); it1!=wordList.end(); it1++) {
+
+        if(adj(beginWord, *it1) == 1) {
+            m[beginWord].push_back(*it1);
+            m[*it1].push_back(beginWord);
+        }
+        if(adj(endWord, *it1) == 1) {
+            m[endWord].push_back(*it1);
+            m[*it1].push_back(endWord);
+        }
+
+        for(unordered_set<string>::iterator it2 = it1; it2!=wordList.end(); it2++) {
+            if(*it1 == *it2) continue;
+            if(adj(*it1, *it2) == 1) {
+                m[*it1].push_back(*it2);
+                m[*it2].push_back(*it1);
+            }
+        }
+    }
+}
+
+int bfs(string& beginWord, string& endWord, unordered_map<string, vector<string> >& m) {
+    //double BFS
+    queue<pair<string, int> > q[2];
+    int t = 0;
+    q[0].push(pair<string, int>(beginWord, 1));
+    q[1].push(pair<string, int>(endWord, 1));
+    unordered_map<string, int> d[2];
+    while(!q[0].empty() && !q[1].empty()) {
+        pair<string, int> p = q[t].front();
+        q[t].pop();
+
+        if(d[t].count(p.first)) continue;
+        if(d[t^1].count(p.first)) return d[t^1][p.first]+p.second;
+        
+        d[t][p.first] = p.second;
+
+        for(int i = 0; i < m[p.first].size(); i ++) {
+            if(!d[t].count(m[p.first][i]))
+                q[t].push(pair<string, int>(m[p.first][i], p.second+1));
+        }
+        t^=1;   //change BFS direction
+    }
+
+    //unreachable
+    return 0;
+}
+
+
+int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
+                
+    if(beginWord.length() <= 1) return beginWord.length();
+    if(adj(beginWord, endWord) == 1) return 1;
+    if(wordList.size() == 0) return 0;
+
+    unordered_map<string, vector<string> > m;
+
+    construct(beginWord, endWord, wordList, m);
+
+    return 0;
+    return bfs(beginWord, endWord, m);
+
+}
+
+
+int main() {
+	srand(time(NULL));
+
+    
+
+    unordered_set<string> wordList;
+    string s;
+    string begin, end;
+    cin>>begin;
+    cin>>end;
+    while(cin>>s && s != "end") {
+        wordList.insert(s);
+    }
+
+    cout<<ladderLength(begin, end, wordList)<<endl;
+
+
+
+    return 0;
+}

@@ -1,0 +1,100 @@
+#include"mytest.h"
+
+
+using namespace std;
+
+int adj(string s1, string s2) {
+    int flag = 0;
+    for(int i = 0; i < s1.length(); i ++){
+        if(s1[i] != s2[i] && flag) return 0;     //end sooner
+        if(s1[i] != s2[i] && !flag) flag = 1;
+    }
+    return 1;
+}
+
+int getid(unordered_map<string,int>& dict, string s, int id) {
+    if(dict.count(s)) return dict[s];
+    return dict[s] = ++id;
+}
+
+int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList) {
+                
+    if(beginWord.length() <= 1) return beginWord.length();
+    if(adj(beginWord, endWord)) return 1;
+    if(wordList.size() == 0) return 0;
+
+    int id = 0;
+
+    unordered_map<int, vector<int> > m;
+
+    unordered_map<string, int> dict;
+    int beginid = getid(dict, beginWord, id);
+    int endid = getid(dict, endWord, id);
+
+    //constructing adjacent list
+    for(unordered_set<string>::iterator it1 = wordList.begin(); it1!=wordList.end(); it1++) {
+
+        int id1 = getid(dict, *it1, id);
+
+        if(adj(beginWord, *it1) == 1) 
+            m[beginid].push_back(id1);
+        if(adj(endWord, *it1) == 1) 
+            m[id1].push_back(endid);
+
+        for(unordered_set<string>::iterator it2 = it1; it2!=wordList.end(); it2++) {
+            int id2 = getid(dict, *it2, id);
+
+            if(*it1 == *it2) continue;
+            if(adj(*it1, *it2) == 1) {
+                m[id1].push_back(id2);
+                m[id2].push_back(id1);
+            }
+        }
+    }
+
+    //BFS
+    queue<pair<int, int> > q;
+    q.push(pair<int, int>(beginid, 1));
+    unordered_set<int> vis;
+    while(!q.empty()) {
+        pair<int, int> p = q.front();
+        q.pop();
+        if(vis.count(p.first)) continue;
+        vis.insert(p.first);
+        if(p.first == endid) return p.second;
+        for(int i = 0; i < m[p.first].size(); i ++) {
+            if(!vis.count(m[p.first][i]))
+                q.push(pair<int, int>(m[p.first][i], p.second+1));
+        }
+    }
+    return 0;
+
+}
+
+
+
+int main() {
+	srand(time(NULL));
+
+    
+
+    unordered_set<string> wordList;
+    string s;
+    string begin, end;
+    cin>>begin;
+    cin>>end;
+    while(cin>>s && s != "end") {
+        wordList.insert(s);
+    }
+
+    cout<<ladderLength(begin, end, wordList)<<endl;
+
+//    for(unordered_set<string>::iterator it = wordList.begin(); it!=wordList.end(); it++) {
+//        cout<<*it<<endl;
+    
+//    }
+
+
+
+    return 0;
+}
