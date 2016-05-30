@@ -170,7 +170,7 @@ void gen(vector<int>& v, int n, int rng) {
 
 
 void genArray(int* A, int n) {
-    for(int i = 0; i < n; i ++) A[i] = rand()%RANDRNG-10;
+    for(int i = 0; i < n; i ++) A[i] = rand()%RANDRNG;
    // sort(A, A+n);
 }
 

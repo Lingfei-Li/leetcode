@@ -1,13 +1,16 @@
 #all: auto 
 all: man 
 
+CFLAGS += -std=c++11
+CFLAGS += -g
+
 compile:
-	g++ -std=c++11 *.cpp -g
+	g++ $(STD) $(CFLAGS) *.cpp
 
 man:
-	g++ -std=c++11 *.cpp -g
+	g++ $(STD) $(CFLAGS) *.cpp
 	time ./a.out
 
 auto:
-	g++ -std=c++11 *.cpp -g
+	g++ $(STD) *.cpp $(CFLAGS) 
 	time ./a.out < in.txt
