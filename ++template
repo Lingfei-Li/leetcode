@@ -5,6 +5,7 @@
 int main() {
 	srand(time(NULL));
 
+    Solution sol;
 
 
 

@@ -64,15 +64,15 @@ print str(left)+"/"+str(total)+" left"
 
 
 ### problem per day
-#d1 = datetime.date(2016,2,25)  
-#d2 = datetime.date.today()  
-#d = (d2-d1).days  
-#print str(d)+" days from begin"
-#perday = float(cnt-offset)/float(d)
-#print str(round( perday, 2)) + "/day"
-#needdays = round((left)/perday,2);
-#print str(needdays) + " more days needed (" + str(round(needdays/30,2))+" months)"
-#print "Expected finish date: "+str(d2+datetime.timedelta(int(needdays)))
+d1 = datetime.date(2016,2,25)  
+d2 = datetime.date.today()  
+d = (d2-d1).days  
+print str(d)+" days from begin"
+perday = float(cnt-offset)/float(d)
+print str(round( perday, 2)) + "/day"
+needdays = round((left)/perday,2);
+print str(needdays) + " more days needed (" + str(round(needdays/30,2))+" months)"
+print "Expected finish date: "+str(d2+datetime.timedelta(int(needdays)))
 
 
 
