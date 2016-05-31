@@ -7,9 +7,9 @@ from time import strptime
 from collections import defaultdict
 import calendar
 
-offset = 79
-total = 331
-locked = 58
+offset = 266
+total = 334
+locked = 0
 
 ### Trend by day
 mp = {}

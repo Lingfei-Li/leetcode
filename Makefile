@@ -1,5 +1,5 @@
-#all: auto 
-all: man 
+all: auto 
+#all: man 
 
 CFLAGS += -std=c++11
 CFLAGS += -g
