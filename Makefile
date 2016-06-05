@@ -3,14 +3,15 @@ all: auto
 
 CFLAGS += -std=c++11
 CFLAGS += -g
+CFLAGS += -Wall
 
 compile:
 	g++ $(STD) $(CFLAGS) *.cpp
 
 man:
 	g++ $(STD) $(CFLAGS) *.cpp
-	time ./a.out
+	./a.out
 
 auto:
 	g++ $(STD) *.cpp $(CFLAGS) 
-	time ./a.out < in.txt
+	./a.out < in.txt

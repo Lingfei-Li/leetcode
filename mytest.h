@@ -48,15 +48,15 @@ vector<string> split(string& s, char delim) {
 }
 
 void printVector(vector<int> v) {
-    for(int i = 0; i < v.size(); i ++) cout<<v[i]<<" ";
+    for(auto it:v) cout<<it<<" ";
     cout<<endl;
 }
 void printVector(vector<char> v) {
-    for(int i = 0; i < v.size(); i ++) cout<<v[i]<<" ";
+    for(auto it:v) cout<<it<<" ";
     cout<<endl;
 }
 void printVector(vector<string> v) {
-    for(int i = 0; i < v.size(); i ++) cout<<v[i]<<endl;
+    for(auto it:v) cout<<it<<"\n";
     cout<<endl;
 }
 void print(vector<int> v) { printVector(v); }
@@ -94,9 +94,9 @@ void readBoard(vector<vector<int> >& m) {
 }
 
 void printBoard(vector<vector<int> > m) {
-    for(int i = 0; i < m.size(); i ++) {
-        for(int j = 0; j < m[0].size(); j ++) {
-            cout<<m[i][j]<<" ";
+    for(auto it:m){
+        for(auto it2:it) {
+            cout<<it2<<" ";
         }
         cout<<endl;
     }
@@ -104,9 +104,9 @@ void printBoard(vector<vector<int> > m) {
 }
 
 void printBoard(vector<vector<char> > m) {
-    for(int i = 0; i < m.size(); i ++) {
-        for(int j = 0; j < m[0].size(); j ++) {
-            cout<<m[i][j]<<" ";
+    for(auto it:m){
+        for(auto it2:it) {
+            cout<<it2<<" ";
         }
         cout<<endl;
     }
@@ -148,8 +148,8 @@ int readVector(vector<string>& v) {
     return 1;
 }
 
-int read(vector<int>& v) { readVector(v); }
-int read(vector<string>& v) { readVector(v); }
+int read(vector<int>& v) { return readVector(v); }
+int read(vector<string>& v) { return readVector(v); }
 
 
 //Generate a vector of length n, int range [0,rng) (default RANDRNG);
