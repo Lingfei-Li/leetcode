@@ -8,7 +8,7 @@ from collections import defaultdict
 import calendar
 
 offset = 266
-total = 334
+total = 341
 locked = 0
 
 ### Trend by day
